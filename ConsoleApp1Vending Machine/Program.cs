@@ -1,144 +1,71 @@
 ﻿using System;
 
-namespace ConsoleApp1Vending_Machine
+namespace ConsoleApp1VendingMachine
 {
-    // Interface
-    interface IVending
-    {
-        void Purchase(int pur); // interface method (does not have a body                     
-        void ShowAll(int show);  // interface method (does not have a body)
-
-        /*
-        void InsertMoney(); // interface method (does not have a body)
-        void EndTransaction(); // interface method (does not have a body)
-        */
-    }
-
-    // Pig "implements" the IAnimal interface
-    class ClassPurchase : IVending
-    {
-        public void Purchase(int pur)
-        {
-            if (pur == 1)
-            {
-                // The body of animalSound() is provided here
-                Console.WriteLine(" Eat the apple. ");
-            }
-            else if (pur == 2)
-            {
-                // The body of animalSound() is provided here
-                Console.WriteLine(" Eat the orange. ");
-            }
-            else if (pur == 3)
-            {
-                // The body of animalSound() is provided here
-                Console.WriteLine(" Eat the banana. ");
-            }
-        }
-
-        public void ShowAll(int pur)
-        {
-            double[] mySums = { 1, 5, 10, 20, 50, 100, 500, 1000 };
-            if (pur == 1)
-            {
-                // The body of animalSound() is provided here
-                Console.WriteLine(" Eat the apple. ");
-            }
-            else if (pur == 2)
-            {
-                // The body of animalSound() is provided here
-                Console.WriteLine(" Eat the orange. ");
-            }
-            else if (pur == 3)
-            {
-                // The body of animalSound() is provided here
-                Console.WriteLine(" Eat the banana. ");
-            }
-        }
-
-    }
-
-
-
-
-
     class Program
     {
+        //Declaring this variable as a static so we may be able to see ammount entered in the machine all time
+        //int to decimal
+        static decimal pool = 0;
         static void Main(string[] args)
         {
-            bool keepAlive = true;
-            while (keepAlive)
+            VendingMachine VM = new VendingMachine();
+            bool ProductMenu = true;
+            while (ProductMenu)
             {
-                try
+                Console.Clear();
+
+                Console.WriteLine("Ammount Entered in Machine:{0}", pool);
+                Console.WriteLine("Enter 1 To Show All Products");
+                Console.WriteLine("Enter 2 To Add Money");
+                Console.WriteLine("Enter 3 To Buy A Product");
+                Console.WriteLine("Enter 4 To Show A Product's Info");
+                Console.WriteLine("Enter 5 To End Transaction");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                switch (choice)
                 {
-                    Console.WriteLine("--------------------------------------------------- ");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Choose what product you want and how many of them.\n " +
-                                        "1. Apple.  2. Orange.  3. Banana.  ('0' End program)");
-                    int assignmentChoice = int.Parse(Console.ReadLine() ?? "");                   
-                    Console.WriteLine("--------------------------------------------------- ");
+                    case 1:
+                        VM.ShowAll();
+                        Console.WriteLine("Press Enter To Continue");
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter Money: 1, 5, 10, 20, 50, 100, 500, 1000");
+                        int ammount = Convert.ToInt32(Console.ReadLine());
+                        pool = VM.InsertMoney(ammount);
+                        Console.WriteLine("Ammount in machine:{0}", pool);
+                        Console.WriteLine("Press Enter To Continue");
+                        Console.ReadLine();
+                        break;
+                    case 3:
+                        VM.ShowAll();
+                        Console.WriteLine("Enter Product ID");
+                        string ID = Console.ReadLine();
+                        pool = VM.Purchase(ID);
+                        Console.WriteLine("Ammount in machine:{0}", pool);
+                        Console.WriteLine("Press Enter To Continue");
+                        Console.ReadLine();
+                        break;
+                    case 4:
+                        Console.WriteLine("Enter Product ID");
+                        ID = Console.ReadLine();
+                        VM.Examine(ID);
+                        Console.WriteLine("Press Enter To Continue");
+                        Console.ReadLine();
+                        break;
+                    case 5:
+                        VM.EndTransaction();
+                        ProductMenu = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Choice");
+                        break;
+                }// switch (choice)
 
-                    switch (assignmentChoice)
-                    {
-                        case 1:
+            }// while (ProductMenu)
 
-                            ClassPurchase myPurchase1 = new ClassPurchase();  // Create  object
-                            int pur1 = 1;
-                            myPurchase1.Purchase( pur1 );
+        }// static void Main(string[] args)
 
-                            break;//----------------------------------------------
+    }//  class Program
 
-                        case 2:
-
-                            ClassPurchase myPurchase2 = new ClassPurchase();  // Create  object
-                            int pur2 = 2;
-                            myPurchase2.Purchase(pur2);
-
-                            break;//-----------------------------------------------
-
-                        case 3:
-
-                            ClassPurchase myPurchase3 = new ClassPurchase();  // Create  object
-                            int pur3 = 3;
-                            myPurchase3.Purchase(pur3);
-
-                            break;//-------------------------------------------------
-
-
-
-
-
-
-
-                        case 0:
-                            keepAlive = false;
-                            break;
-                        default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(" 1. That is not a valid input!");
-                            break;
-                    }
-                    Console.ResetColor();
-                    Console.WriteLine(" Hit any key to continue!");
-                    Console.ReadKey();
-                    Console.Clear();
-                }
-                catch
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(" 2. That is not a valid input!");
-                    Console.ResetColor();
-                }
-
-            }//while (keepAlive)
-
-
-
-
-            
-
-
-
-            }
-    }
-}
+}//  namespace ConsoleApp1VendingMachine
